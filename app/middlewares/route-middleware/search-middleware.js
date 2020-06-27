@@ -16,7 +16,6 @@ module.exports = (req, res) => {
     return errorHandler(new Error(`search (${search}) must not be undefined`));
   }
 
-
   function palindrome(str) {
     str = str.toLowerCase();
     const len = str.length;
@@ -38,7 +37,10 @@ module.exports = (req, res) => {
     function proccessDocument(document) {
       return new Promise((fullfil) => {
         const id = _.get(document, 'id');
-        document.palindrome = palindrome(id);
+        if (palindrome(id.toString())) {
+          const price = _.get(document, 'price');
+          document.newPrice = Math.round(price / 2);
+        }
         data.push(document);
         return fullfil();
       });

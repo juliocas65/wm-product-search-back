@@ -16,7 +16,8 @@ function obtenerCollection(logger) {
       if (errorConnect) {
         return reject(errorConnect);
       }
-      return fullfil(db.collection(config.collection));
+      const dbo = db.db('promotions');
+      return fullfil(dbo.collection(`${config.collection}`));
     }
     return mongoClient.connect(mongoUrl, connectHandler);
   });
