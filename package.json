@@ -36,7 +36,7 @@
     "cucumber-assert": "2.0.0",
     "cucumber-html-reporter": "^2.0.3",
     "depcheck": "0.6.7",
-    "eslint": "3.19.0",
+    "eslint": "7.3.1",
     "eslint-config-airbnb": "15.0.1",
     "eslint-plugin-import": "2.6.0",
     "eslint-plugin-jsx-a11y": "5.0.3",
