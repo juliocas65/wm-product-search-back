@@ -1,0 +1,25 @@
+{
+    "root": true,
+    "env": {
+     "es6": true,
+     "node": true,
+     "browser": true,
+     "mocha": true
+    },
+    "extends": [ "airbnb", "plugin:import/warnings" ],
+    "parserOptions": {
+     "ecmaVersion": 6,
+     "sourceType": "module",
+     "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+     }
+    },
+    "rules": {
+       "class-methods-use-this": "off",
+       "arrow-body-style":"off",
+       "comma-dangle": "off",
+       "indent": [2, 2],
+       "max-len": [2, 200]
+     }
+}
