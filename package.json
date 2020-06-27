@@ -20,7 +20,7 @@
     "express": "4.15.3",
     "express-routemap": "1.1.0",
     "helmet": "3.8.1",
-    "moment": "2.19.1",
+    "moment": "2.27.0",
     "request": "2.83.0",
     "strong-soap": "1.2.6",
     "swagger-jsdoc": "1.9.7",
