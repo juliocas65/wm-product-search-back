@@ -12,9 +12,11 @@ function searchProductController(req) {
 
   logger.info(`Will find product for ${req.query.search}`);
   const query = {
-    id: {
-      $eq: parseInt(req.query.search, 10),
-    }
+    $or: [
+      { id: { $eq: parseInt(req.query.search, 10) || undefined } },
+      { brand: { $regex: req.query.search, $options: 'i' } },
+      { description: { $regex: req.query.search, $options: 'i' } }
+    ]
   };
 
   logger.info(`Busqueda en: ${config.collection}, query: ${JSON.stringify(query)}`);

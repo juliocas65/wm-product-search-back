@@ -36,8 +36,7 @@ module.exports = (req, res) => {
     }
     function proccessDocument(document) {
       return new Promise((fullfil) => {
-        const id = _.get(document, 'id');
-        if (palindrome(id.toString())) {
+        if (palindrome(req.query.search)) {
           const price = _.get(document, 'price');
           document.newPrice = Math.round(price / 2);
         }
@@ -49,11 +48,18 @@ module.exports = (req, res) => {
       if (error) {
         return getNext();
       } else if (document === null) {
-        salida = {
-          code: 'SUCCESS',
-          message: 'Products finded',
-          data
-        };
+        if (data.length > 0) {
+          salida = {
+            code: 'SUCCESS',
+            message: 'Products found',
+            data
+          };
+        } else {
+          salida = {
+            code: 'NOT_FOUND',
+            message: 'Products not found'
+          };
+        }
         return commonResponse.sendResponseOk(res, salida);
       }
       return proccessDocument(document).then(() => { return getNext(); });
@@ -66,7 +72,7 @@ module.exports = (req, res) => {
   .catch((error) => {
     salida = {
       code: 'ERROR',
-      message: 'Products not finded',
+      message: 'Error during search',
       error
     };
     return commonResponse.sendInternalError(res, salida);
