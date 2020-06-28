@@ -2,11 +2,20 @@
 ---------------------
 Service to search products from mongo database of Walmarts promotions.
 
-### Run:
+### Run local on you IDE:
 ---------------------
-Run the service locally: ``` npm run start ```
+* Ensure to set up the environment variables (See Environment variables needed)
+* Run the service locally: ``` npm run start ```
+* * Then your service will be up. Try it! (See Services Availables in this doc page).
 
-### Port:
+### Build and run as Docker Container:
+---------------------
+* Ensure you get up the Mongo DB instance.
+* Ensure to have the correct environment variables values on ``` dockerfiles/Dockerfile ``` to connect with MongoDB.
+* Run the command ``` sh build-local.sh ``` on the root of this repository. This will build the docker image tagged with :local and then will run the container.
+* Then your service will be up. Try it! (See Services Availables in this doc page).
+
+### Default Port:
 ---------------------
 3001
 
@@ -25,13 +34,13 @@ Run the service locally: ``` npm run start ```
 
 ### Services Availables:
 ---------------------
-Checkout the Swagger Documentation, once you run the application:
+Checkout the OpenApi Swagger Documentation, once you run the application:
 [Swagger Doc](http://localhost:3001/products/api-docs/)
 
 Import the Postman Collection to prove it:
 [Postman Collection](https://www.getpostman.com/collections/7e76c413f152e5d4ec33)
 
-### Testing
+### Testing:
 ---------------------
 * Unit tests: ``` npm run unit-test ```
 * Coverage over 90%: ``` npm run coverage ```
