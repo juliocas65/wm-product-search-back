@@ -8,5 +8,5 @@ Feature: Check if service is up and running
     Then I can see "<serviceResponse>"
 
     Examples:
-      | serviceUrl                                    | serviceResponse                   |
-      | http://localhost:3017/api/v1/solicitud/health | solicitud up and running on local |
+      | serviceUrl                            | serviceResponse                  |
+      | http://localhost:3001/products/health | products up and running on local |

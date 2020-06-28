@@ -7,13 +7,13 @@ module.exports = function () {
   function makeRequest(bodyIn, callback) {
     const options = {
       headers: {
-        'x-country': 'CO',
+        'x-country': 'CL',
         'x-channel': 'Web',
-        'x-commerce': 'Banco'
+        'x-commerce': 'Market'
       },
       json: bodyIn
     };
-    return request.post(config.obtenerHistoricoEndpoint, options, (errorPost, response, body) => {
+    return request.get(config.obtenerHistoricoEndpoint, options, (errorPost, response, body) => {
       if (errorPost) {
         return callback(errorPost);
       }

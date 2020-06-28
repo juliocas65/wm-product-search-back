@@ -6,7 +6,7 @@ Service to search products from mongo database of Walmarts promotions.
 ---------------------
  ``` npm run start ```
 
-###Port:
+### Port:
 ---------------------
 3001
 
@@ -23,8 +23,12 @@ export MONGO_PASS
 export MONGO_HOST
 export MONGO_PORT
 
+### Services Availables:
+---------------------
+Checkout the Swagger Documentation:
+[/api-docs/](http://http://localhost:3001/api-docs/)
 
 ### Testing
 ---------------------
-* Coverage over 90%: npm run coverage
-* Unit tests: npm run unit-test
+* Coverage over 90%: ``` npm run coverage ```
+* Unit tests: ``` npm run unit-test ```

@@ -3,12 +3,12 @@ Feature: Check service response
 Background:
     Given I have service up and running
 
-Scenario Outline: obtener historico endpoint
-    When I post to obtener historico endpoint with data "<estado>"
-    Then I can see error code "<code>"
+Scenario Outline: search product
+    When I get to search endpoint with data "<search>"
+    Then I can see code "<code>"
 
     Examples:
-      | estado  | code          |
+      | search  | code          |
       |         | BODY_ERROR    |
       | -1      | BODY_ERROR    |
       | 127     | BODY_ERROR    |

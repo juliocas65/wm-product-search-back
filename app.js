@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const config = require('./app/config/index');
-const swaggerJSDoc = require('swagger-jsdoc');
+const YAML = require('yamljs');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDef = require('./swagger.json');
 const healthController = require('./app/controllers/health-controller');
@@ -16,12 +16,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // swagger configuration
 
 swaggerDef.basePath = basePath;
+const swaggerDocument = YAML.load('./swagger/products.yml');
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(
-  swaggerJSDoc({
-    swaggerDefinition: swaggerDef,
-    apis: ['./app/routes/*.js']
-  })));
+app.use('/api-docs', swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument));
 
 // health check MS
 app.get(`/${basePath}/health`, healthController);

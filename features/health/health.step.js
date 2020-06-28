@@ -3,7 +3,7 @@ const assert = require('cucumber-assert');
 
 module.exports = function () {
   this.Given(/^I have service up and running$/, () => {
-    process.env.PORT = 3017;
+    process.env.PORT = 3001;
     require('../../bin/www');
   });
   let globalResponse;

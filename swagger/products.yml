@@ -1,0 +1,113 @@
+swagger: "2.0"
+info:
+  description: Service to search products from mongo database of Walmarts promotions.
+  version: "1.0.0"
+  title: wm-product-search-back
+  contact:
+    name: Julio Castillo
+    email: juliocas65@gmail.com
+servers:
+  - url: http://localhost:3001
+basePath: "/products/"
+schemes:
+  - "http"
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: "Verify the health of service."
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: "Ok Response"
+          schema:
+            $ref: "#/definitions/healthResponseOk"
+          examples:
+            Up:
+              "products is up and running"
+
+  /search:
+    get:
+      tags:
+        - Search
+      summary: "Search for products on Walmarts Mongo DB."
+      consumes:
+        - application/json 
+      parameters:
+        - $ref: '#/parameters/country'
+        - $ref: '#/parameters/commerce'
+        - $ref: '#/parameters/channel'
+        - in: query
+          name: search
+          description: Value to search on ID, Brand or Description of Products.
+          schema:
+            type: string
+            example: 'abba'
+          required: true
+      responses:
+        200:
+          description: "Ok Response"
+          schema:
+            $ref: "#/definitions/searchResponseOk"
+          examples:
+            SUCCESS:
+              code: 'SUCCESS'
+              message: Products found
+              data:
+                  id: 123
+                  brand: 'asadc'
+                  description: 'sdfsfdf'
+                  price: 136000
+        500:
+          description: "Error Response"
+          schema:
+            $ref: "#/definitions/searchResponseError"
+          examples:
+            SUCCESS:
+              code: 'ERROR'
+              message: Error during search
+
+definitions:
+  searchResponseOk:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      message:
+        type: "string"
+      data:
+        type: "array"
+  healthResponseOk:
+    type: "string"
+  searchResponseError:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+      message:
+        type: "string"
+
+
+#common parameter definitions
+parameters:  
+  channel:
+    in: header
+    name: x-channel
+    type: string
+    description: "Description: Id of channel. \n \n Example: Web"
+    required: true
+  commerce:
+    in: header
+    name: x-commerce
+    type: string
+    description: "Description: Business Code.  \n \n Example: Market"
+    required: true
+  country:
+    in: header
+    name: x-country
+    type: string
+    description: "Description: Business Country.  \n \nExample: CL"
+    required: true
+            
