@@ -5,7 +5,7 @@ describe('healthController', () => {
   it('should return health', (done) => {
     const res = {
       send(data) {
-        expect(data).to.be.equal('solicitud up and running on local');
+        expect(data).to.be.equal('products up and running on local');
         done();
       }
     };

@@ -1,30 +1,17 @@
-/* eslint-disable no-param-reassign, no-plusplus */
+/* eslint-disable no-param-reassign,  */
 const searchProductController = require(`../../controllers/search-product-controller`); // eslint-disable-line
-const Logger = require('../../loggers/logger');
 const commonResponse = require('../../common/common-response');
 const _ = require('../../common/common-lodash');
+const util = require('../../utils/util');
 
 module.exports = (req, res) => {
-  const logger = new Logger('SEARCH-MIDDLEWARE', req);
   function errorHandler(error) {
-    logger.error(error.stack);
     return commonResponse.sendWrongBody(res, error.stack);
   }
 
   const search = _.get(req, 'query.search');
   if (search === undefined) {
     return errorHandler(new Error(`search (${search}) must not be undefined`));
-  }
-
-  function palindrome(str) {
-    str = str.toLowerCase();
-    const len = str.length;
-    for (let i = 0; i < len / 2; i++) {
-      if (str[i] !== str[len - 1 - i]) {
-        return false;
-      }
-    }
-    return true;
   }
 
   let salida = {};
@@ -36,7 +23,7 @@ module.exports = (req, res) => {
     }
     function proccessDocument(document) {
       return new Promise((fullfil) => {
-        if (palindrome(req.query.search)) {
+        if (util.palindrome(req.query.search)) {
           const price = _.get(document, 'price');
           document.newPrice = Math.round(price / 2);
         }
@@ -68,13 +55,13 @@ module.exports = (req, res) => {
   }
 
   return searchProductController(req)
-  .then(queryHandler)
-  .catch((error) => {
-    salida = {
-      code: 'ERROR',
-      message: 'Error during search',
-      error
-    };
-    return commonResponse.sendInternalError(res, salida);
-  });
+    .then(queryHandler)
+    .catch((error) => {
+      salida = {
+        code: 'ERROR',
+        message: 'Error during search',
+        error
+      };
+      return commonResponse.sendInternalError(res, salida);
+    });
 };

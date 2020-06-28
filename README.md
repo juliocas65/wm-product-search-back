@@ -1,16 +1,30 @@
-wm-product-search-back
+# wm-product-search-back
 ---------------------
+Service to search products from mongo database of Walmarts promotions.
 
-Running the service
+### Running the service
 ---------------------
-NODE_ENV=<environment-name> npm start
+ ``` npm run start ```
 
-NODE_ENV=<environment-name> pm2 start bin/www
- 
-
-Testing
+###Port:
 ---------------------
-* Coverage must be at least 90%: npm run coverage
+3001
+
+### Environment variables needed:
+---------------------
+#### Services headers:
+export COUNTRY
+export COMMERCE
+export CHANNEL
+
+#### Mongo Database:
+export MONGO_USER
+export MONGO_PASS
+export MONGO_HOST
+export MONGO_PORT
+
+
+### Testing
+---------------------
+* Coverage over 90%: npm run coverage
 * Unit tests: npm run unit-test
-* Iso test: npm run iso-test
-* The project must have a script to run all tests at once, like:  npm run test

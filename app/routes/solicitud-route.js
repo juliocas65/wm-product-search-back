@@ -9,7 +9,7 @@ function solicitudRoute() {
     methods: ['GET', 'POST', 'HEAD', 'OPTIONS']
   }));
 
-  router.get('/palindrome/', [headerMiddleware, searchMiddleware]);
+  router.get('/search/', [headerMiddleware, searchMiddleware]);
   return router;
 }
 module.exports = solicitudRoute;

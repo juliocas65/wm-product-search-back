@@ -2,24 +2,20 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "fif-common-nodejs-boilerplate",
-    "description": "This API allows to  verify a person and all or one  person"
-   },
-  "host": "",
-  "basePath": "/api/vu-second-factor",
+    "title": "fif-common-notification",
+    "description": "This API allows to send notifications"
+  },
+  "host": "localhost:3005",
+  "basePath": "/fif/common/notification/v1",
   "tags": [
     {
-      "name": "fif-common",
-      "description": "",
-      "externalDocs":
-      {
-        "description": "",
-        "url": ""
-      }
+      "name": "fif-common-notification",
+      "description": ""
     }
   ],
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -27,14 +23,404 @@
   "produces": [
     "application/json"
   ],
-  "securityDefinitions": {
-    "accessToken": {
-        "type": "apiKey",
-        "name": "x-access-token",
-        "in": "header"
-      }
+  "parameters": {
+    "type": {
+      "type": "string",
+      "enum": ["email","callback"],
+      "name": "x-type",
+      "in": "header",
+      "description": "Type of notification to send"
+    },
+    "provider": {
+      "type": "string",
+      "enum": ["xerox","smtp","exact-target"],
+      "name": "x-provider",
+      "in": "header",
+      "description": "Provider of notification"
+    },
+    "channel": {
+      "type": "string",
+      "name": "x-channel",
+      "enum": ["ASL+","B2B","B2C","Cardif","ComercioAdherido","CRM","FonoCompras","Homy","IVR","Kiosco","Mobile","Mobile-APP","Mobile-WEB","Portal","Presencial","POS","PuntodeVenta","SIX","UXPOSVenta-Empresa","Web","WebCMR","Web-PAC","USSD","PuntodeVenta","CRM","DIM","PMM","WMOS","SRX","ATG","OMS","TRL","SAB","WEB_PORTAL","BATCH","App-GSVendedor","QuickPay","DAD"],
+      "in": "header",
+      "description": "Id of channel"
+    },
+    "commerce": {
+      "type": "string",
+      "name": "x-commerce",
+      "enum": ["Banco","CMR","Falabella","Seguros","Sodimac","Tottus","Movil","Viajes","FalabellaMovil","CrateAndBarrel","TelcoCMR","Connect","WebMovilFalabella","BackOffice"],
+      "in": "header",
+      "description": "Business Code."
+    },
+    "country": {
+      "type": "string",
+      "enum": ["AR","BR","CL","CO","PE","UY"],
+      "name": "x-country",
+      "in": "header",
+      "description": "Business Country"
+    }
   },
-  "security": [
-    { "accessToken": [] }
-  ]
+  "definitions": {
+    "PostSmtpEmailBody": {
+      "properties": {
+        "recipient": {
+          "description": "It must contains an email address indicating the recipient. You can enter several recipients separated by ','",
+          "type": "string",
+          "example": "cilopez@falabella.cl,rfanic@falabella.cl,csalazarr@falabella.cl"
+        },
+        "subject": {
+          "description": "It must be a string indicating the subject of the email you wish to send",
+          "type": "string",
+          "example": "Apertura de Tarjeta CMR - Contrato"
+        },
+        "htmlBody": {
+          "description": "It must be a string that contains the body of the message. It can be an HTML document",
+          "type": "string",
+          "example": "<html><body><div><h1>Reporte de canal Web</h1></div><div><table><tr><th>Fecha</th><th>Valor</th></tr><tr><td>08/02/2018</td><td>260</td></tr></table></div></body></html>"
+        },
+        "from": {
+          "description": "It must be a string that contains an email address indicating the sender of the message. If it is an email in the falabella domain, it must be ensured that such a box exists, otherwise the message will not be sent.",
+          "type": "string",
+          "example": "csalazarr@falabella.cl"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/attachment"
+          },
+          "description": "It must be an array that contains a set of JSON objects",
+          "example": [
+            {
+              "filename": "contrato.pdf",
+              "content": "base64"
+            }
+          ]
+        }
+      }
+    },
+    "PostXeroxEmailBody": {
+      "properties": {
+        "recipient": {
+          "description": "It must contains an email address indicating the recipient",
+          "type": "string",
+          "example": "cilopez@falabella.cl"
+        },
+        "subject": {
+          "description": "It must be a string indicating the subject of the email you wish to send",
+          "type": "string",
+          "example": "Apertura de Tarjeta CMR - Contrato"
+        },
+        "template": {
+          "description": "It must be an object that contains name of template and optionally fields",
+          "type": "object",
+          "properties": {
+            "schema": {
+              "$ref": "#/definitions/template"
+            }
+          },
+          "example": {
+            "name": "TEMPLATE_CONTRATO",
+            "fields": [
+              {
+                "name": "NOMBRE_CLIENTE",
+                "value": "Maria Perez"
+              }
+            ]
+          }
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/attachment"
+          },
+          "description": "It must be an array that contains a set of JSON objects",
+          "example": [
+            {
+              "filename": "contrato",
+              "content": "base64"
+            }
+          ]
+        }
+      }
+    },
+    "PostCallbackBody": {
+      "properties": {
+        "documentType": {
+          "description": "It must be a string that contains the document type of prospect customer. ','",
+          "type": "string",
+          "example": "RUT"
+        },
+        "documentNumber": {
+          "description": "It must be a string that contains the document number of prospect customer.",
+          "type": "string",
+          "example": "12345678-K"
+        },
+        "firstName": {
+          "description": "It must be a string that contains the first name of prospect customer.",
+          "type": "string",
+          "example": "Pepito"
+        },
+        "lastName": {
+          "description": "It must be a string that contains the last name of prospect customer.",
+          "type": "string",
+          "example": "Perez"
+        },
+        "clientType": {
+          "description": "It must be a string that contains the client type of prospect customer.",
+          "type": "string",
+          "example": "PREMIUM"
+        },
+        "phoneNumber": {
+          "description": "It must be a string that contains the phone number of prospect customer. this property will be used by the contact center to call the prospect customer.",
+          "type": "string",
+          "example": "968518858"
+        },
+        "placeType": {
+          "description": "It must be a string that contains the place type where the call was made.",
+          "type": "string",
+          "example": "PRIVADO"
+        },
+        "pagePosition": {
+          "description": "It must be a string that contains the page position of web page where the call was made.",
+          "type": "string",
+          "example": "SIMULADOR-AVANCE-PRIVADO"
+        },
+        "subject": {
+          "description": "It must be a string indicating the subject of the email you wish to send",
+          "type": "string",
+          "example": "Apertura de Tarjeta CMR - Contrato"
+        },
+        "businessId": {
+          "description": "It must be a string that contains the business id where the call was made.",
+          "type": "string",
+          "example": "WCB_CMR_OM_CH-"
+        },
+        "emailAddress": {
+          "description": "It must contains an email address indicating the recipient",
+          "type": "string",
+          "example": "cilopez@falabella.cl"
+        },
+        "media": {
+          "description": "It must be a string that contains a type of interaction.",
+          "type": "string",
+          "example": "voice"
+        },
+        "callbackTime": {
+          "description": "It must be a string that contains a callback time. This property indicates that you call immediately ",
+          "type": "number",
+          "example": 0
+        },
+        "callbackDuration": {
+          "description": "It must be a string that contains a callback duration. This property indicates the lifetime (in minutes) of the message in the queue.",
+          "type": "number",
+          "example": 1440
+        },
+        "action": {
+          "description": "It must be a string that contains a action. This property is used to create a web callback or cancel",
+          "type": "number",
+          "example": 2
+        },
+        "timeShift": {
+          "description": "It must be a string that contains a time shift. This property is used to handle time changes",
+          "type": "number",
+          "example": 180
+        }
+      }
+    },
+    "PostExactTarget": {
+      "type": "object",
+      "properties": {
+        "templateName": {
+          "type": "string",
+          "example": "NS_TEMPLATE"
+        },
+        "destinataries": {
+          "type": "string",
+          "example": "none@falabella.cl,abc@gmail.com"
+        },
+        "bodyMessage": {
+          "type": "object",
+          "description": "object with request definition of BUS service ClienteNotificacionEnviar"
+        }
+      }
+    },
+    "StandardSuccessResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "SUCCESS"
+        },
+        "message": {
+          "type": "string",
+          "example": "Email sent successfully"
+        }
+      }
+    },
+    "StandardSmtpSuccessResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "SUCCESS"
+        },
+        "message": {
+          "type": "string",
+          "example": "Email sent successfully"
+        },
+        "mailinfo": {
+          "type": "object",
+          "properties": {
+            "accepted": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Recipients that were accepted by the SMTP server to send the email",
+              "example": [
+                "correo@gmail.com",
+                "otrocorreo@hotmail.com"
+              ]
+            },
+            "rejected": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Recipients that were rejected by the SMTP server to send the email",
+              "example": [
+                "correo@gmail.com",
+                "otrocorreo@hotmail.com"
+              ]
+            },
+            "messageId": {
+              "type": "string",
+              "description": "Identifier of the message in the email service"
+            }
+          }
+        }
+      }
+    },
+    "StandardCallbackSuccessResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "SUCCESS"
+        },
+        "message": {
+          "type": "string",
+          "example": "Callback sent successfully"
+        },
+        "info": {
+          "type": "string",
+          "example": "Call request registered"
+        }
+      }
+    },
+    "StandardErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "INTERNAL_ERROR"
+        },
+        "message": {
+          "type": "string",
+          "example": "INTERNAL_ERROR"
+        },
+        "stack": {
+          "type": "string",
+          "description": "Indicates the stack trace of the error occurred"
+        }
+      }
+    },
+    "StandardBadRequestErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "BAD_REQUEST"
+        },
+        "message": {
+          "type": "string",
+          "example": "Not a valid request"
+        }
+      }
+    },
+    "template": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "CONTRATO_APERTURA_TEMPLATE_V1",
+          "description": "name of the template registered in xerox"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/templateField"
+          }
+        }
+      }
+    },
+    "templateField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of field"
+        },
+        "value": {
+          "type": "string",
+          "description": "value of field"
+        }
+      }
+    },
+    "attachment": {
+      "type": "object",
+      "properties": {
+        "filename": {
+          "type": "string",
+          "description": "name of the file that you want to attach and must have the form 'name.extension'",
+          "example": [
+            "contrato.pdf",
+            "resumen.pdf"
+          ]
+        },
+        "content": {
+          "type": "string",
+          "description": "string that contains the information of the attachment in base64 encoding",
+          "example": "base64string"
+        }
+      }
+    },
+    "Request": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "It must be a string indicating the subject of the email you wish to send",
+          "type": "string",
+          "example": "Apertura de Tarjeta CMR - Contrato"
+        },
+        "recipient": {
+          "description": "It must contains an email address indicating the recipient. You can enter several recipients separated by ','",
+          "type": "string",
+          "example": "cilopez@falabella.cl,rfanic@falabella.cl,csalazarr@falabella.cl"
+        },
+        "xerox": {
+          "$ref": "#/definitions/PostXeroxEmailBody"
+        },
+        "smtp": {
+          "$ref": "#/definitions/PostSmtpEmailBody"
+        },
+        "exactTarget": {
+          "$ref": "#/definitions/PostExactTarget"
+        },
+        "callback": {
+          "$ref": "#/definitions/PostCallbackBody"
+        }
+      }
+    }
+  }
 }
