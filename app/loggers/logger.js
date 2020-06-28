@@ -33,12 +33,10 @@ function createWinstonLogger(levelIn) {
 
 function Logger(moduleNameIn, reqOrRes) {
   const moduleName = moduleNameIn;
-  const sessionId = _.get(reqOrRes, 'locals.sessionId');
-  const requestId = _.get(reqOrRes, 'locals.requestId');
   const country = _.get(reqOrRes, 'locals.country');
   if (!winstonInfo) { winstonInfo = createWinstonLogger('info'); }
   if (!winstonError) { winstonError = createWinstonLogger('error'); }
-  this.info = message => winstonInfo.info({ country, serviceName, environment, sessionId, requestId, moduleName, message });
-  this.error = message => winstonError.error({ country, serviceName, environment, sessionId, requestId, moduleName, message });
+  this.info = message => winstonInfo.info({ country, serviceName, environment, moduleName, message });
+  this.error = message => winstonError.error({ country, serviceName, environment, moduleName, message });
 }
 module.exports = Logger;

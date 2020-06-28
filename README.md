@@ -2,6 +2,14 @@
 ---------------------
 Service to search products from mongo database of Walmarts promotions.
 
+### Services Availables:
+---------------------
+Checkout the Swagger Documentation:
+[Swagger Doc](http://localhost:3001/products/api-docs/)
+
+Import the Postman Collection:
+[Postman Collection](https://www.getpostman.com/collections/7e76c413f152e5d4ec33)
+
 ### Running the service
 ---------------------
  ``` npm run start ```
@@ -23,12 +31,10 @@ export MONGO_PASS
 export MONGO_HOST
 export MONGO_PORT
 
-### Services Availables:
----------------------
-Checkout the Swagger Documentation:
-[/api-docs/](http://http://localhost:3001/api-docs/)
-
 ### Testing
 ---------------------
-* Coverage over 90%: ``` npm run coverage ```
 * Unit tests: ``` npm run unit-test ```
+* Coverage over 90%: ``` npm run coverage ```
+* Integration Test with Newman: ``` npm run check-newman ```
+* Stub Services with Stubbys: ``` npm run stubby-all ```
+* Eslint check: ``` npm run eslint ```

@@ -1,0 +1,55 @@
+- request:
+    method: GET
+    url: ^/products/health*
+  response:
+    status: 200
+    latency: 500
+    body: "product is up and running"
+
+- request:
+    method: GET
+    url: ^/products/search*
+    query: 
+      search: 181
+  response:
+    headers:
+      content-type: application/json
+    status: 200
+    latency: 500
+    file: ./success.response-by-id.json
+
+- request:
+    method: GET
+    url: ^/products/search*
+    query: 
+      search: ele
+  response:
+    headers:
+      content-type: application/json
+    status: 200
+    latency: 500
+    file: ./success.response-by-description.json
+
+- request:
+    method: GET
+    url: ^/products/search*
+    query: 
+      search: yhi
+  response:
+    headers:
+      content-type: application/json
+    status: 200
+    latency: 500
+    file: ./success.response-not-found.json
+    
+- request:
+    method: GET
+    url: ^/products/search*
+    query: 
+      search: tgh
+  response:
+    headers:
+      content-type: application/json
+    status: 500
+    latency: 500
+    file: ./error.response.json

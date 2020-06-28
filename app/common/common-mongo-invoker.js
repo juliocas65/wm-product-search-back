@@ -11,7 +11,7 @@ function obtenerCollection(logger) {
     if (!process.env.MONGO_USER || !process.env.MONGO_PASS || !process.env.MONGO_HOST || !process.env.MONGO_PORT) {
       return reject(new Error('Mongo DB credentials are required.'));
     }
-    logger.info(`Conectando a Mongo database promotions en host ${process.env.MONGO_HOST} para obtener coleccion ${config.collection}`);
+    logger.info(`Connecting Mongo database promotions en host ${process.env.MONGO_HOST} para obtener coleccion ${config.collection}`);
     function connectHandler(errorConnect, db) {
       if (errorConnect) {
         return reject(errorConnect);

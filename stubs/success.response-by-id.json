@@ -1,0 +1,15 @@
+{
+  "code": "SUCCESS",
+  "message": "Products found",
+  "data": [
+    {
+      "_id": "5ef6b117a1ae0efb8b57230e",
+      "id": 181,
+      "brand": "rvblsml",
+      "description": "goeyxg nbowu",
+      "image": "www.lider.cl/catalogo/images/toysIcon.svg",
+      "price": 775722,
+      "newPrice": 387861
+    }
+  ]
+}

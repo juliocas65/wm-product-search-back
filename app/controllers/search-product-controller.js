@@ -15,7 +15,6 @@ function searchProductController(req) {
     ]
   };
 
-
   logger.info(`Search on: ${config.collection}, query: ${JSON.stringify(query)}`);
   return mongoInvoker.realizarBusqueda(query);
 }

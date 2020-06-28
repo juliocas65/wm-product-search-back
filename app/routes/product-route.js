@@ -3,7 +3,7 @@ const allowCrossDomain = require('cors');
 const headerMiddleware = require('../middlewares/general-middleware/header-middleware');
 const searchMiddleware = require('../middlewares/route-middleware/search-middleware');
 
-function solicitudRoute() {
+function productRoute() {
   const router = express.Router();
   router.use(allowCrossDomain({
     methods: ['GET', 'POST', 'HEAD', 'OPTIONS']
@@ -12,4 +12,4 @@ function solicitudRoute() {
   router.get('/search/', [headerMiddleware, searchMiddleware]);
   return router;
 }
-module.exports = solicitudRoute;
+module.exports = productRoute;
