@@ -28,7 +28,9 @@ describe('searchProductController', () => {
   it('Should return error if request query undefined', (done) => {
     const searchProductController = require('./search-product-controller');
     try {
-      searchProductController({ query: undefined });
+      searchProductController({
+        query: undefined
+      });
     } catch (error) {
       expect(error.message).to.be.equal('Cannot read property \'search\' of undefined');
       done();
@@ -36,13 +38,31 @@ describe('searchProductController', () => {
   });
   it('Should return promise if search is number ok', (done) => {
     const searchProductController = require('./search-product-controller');
-    const data = searchProductController({ query: { search: 181 } });
+    const data = searchProductController({
+      query: {
+        search: 181
+      }
+    });
     expect(data).to.be.instanceOf(Promise);
     done();
   });
   it('Should return promise if search is string ok', (done) => {
     const searchProductController = require('./search-product-controller');
-    const data = searchProductController({ query: { search: '!"' } });
+    const data = searchProductController({
+      query: {
+        search: '!"'
+      }
+    });
+    expect(data).to.be.instanceOf(Promise);
+    done();
+  });
+  it('Should return promise if search is string more than 3 characters ok', (done) => {
+    const searchProductController = require('./search-product-controller');
+    const data = searchProductController({
+      query: {
+        search: 'ele'
+      }
+    });
     expect(data).to.be.instanceOf(Promise);
     done();
   });
