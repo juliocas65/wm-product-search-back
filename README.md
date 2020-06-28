@@ -2,17 +2,9 @@
 ---------------------
 Service to search products from mongo database of Walmarts promotions.
 
-### Services Availables:
+### Run:
 ---------------------
-Checkout the Swagger Documentation:
-[Swagger Doc](http://localhost:3001/products/api-docs/)
-
-Import the Postman Collection:
-[Postman Collection](https://www.getpostman.com/collections/7e76c413f152e5d4ec33)
-
-### Running the service
----------------------
- ``` npm run start ```
+Run the service locally: ``` npm run start ```
 
 ### Port:
 ---------------------
@@ -21,15 +13,23 @@ Import the Postman Collection:
 ### Environment variables needed:
 ---------------------
 #### Services headers:
-export COUNTRY
-export COMMERCE
-export CHANNEL
+* export COUNTRY
+* export COMMERCE
+* export CHANNEL
 
 #### Mongo Database:
-export MONGO_USER
-export MONGO_PASS
-export MONGO_HOST
-export MONGO_PORT
+* export MONGO_USER
+* export MONGO_PASS
+* export MONGO_HOST
+* export MONGO_PORT
+
+### Services Availables:
+---------------------
+Checkout the Swagger Documentation, once you run the application:
+[Swagger Doc](http://localhost:3001/products/api-docs/)
+
+Import the Postman Collection to prove it:
+[Postman Collection](https://www.getpostman.com/collections/7e76c413f152e5d4ec33)
 
 ### Testing
 ---------------------
