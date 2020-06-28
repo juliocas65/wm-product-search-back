@@ -6,7 +6,7 @@ Service to search products from mongo database of Walmarts promotions.
 ---------------------
 * Ensure to set up the environment variables (See Environment variables needed)
 * Run the service locally: ``` npm run start ```
-* * Then your service will be up. Try it! (See Services Availables in this doc page).
+* Then your service will be up. Try it! (See Services Availables in this doc page).
 
 ### Build and run as Docker Container:
 ---------------------
@@ -37,13 +37,13 @@ Service to search products from mongo database of Walmarts promotions.
 Checkout the OpenApi Swagger Documentation, once you run the application:
 [Swagger Doc](http://localhost:3001/products/api-docs/)
 
-Import the Postman Collection to prove it:
+You can import the Postman Collection to prove the service:
 [Postman Collection](https://www.getpostman.com/collections/7e76c413f152e5d4ec33)
 
 ### Testing:
 ---------------------
 * Unit tests: ``` npm run unit-test ```
-* Coverage over 90%: ``` npm run coverage ```
+* Coverage: ``` npm run coverage ```
 * Integration Test with Newman: ``` npm run check-newman ```
 * Stub Services with Stubbys: ``` npm run stubby-all ```
 * Eslint check: ``` npm run eslint ```
